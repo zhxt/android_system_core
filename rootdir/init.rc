@@ -34,8 +34,6 @@ on init
 
     loglevel 64
 
-    # Backward compatibility
-    symlink /system/etc /etc
     symlink /sys/kernel/debug /d
 
     # Right now vendor lives on the same filesystem as system,
@@ -185,9 +183,9 @@ on late-init
 
 on post-fs
     # once everything is setup, no need to modify /
-    mount rootfs rootfs / ro remount
+    # mount rootfs rootfs / ro remount
     # mount shared so changes propagate into child namespaces
-    mount rootfs rootfs / shared rec
+    # mount rootfs rootfs / shared rec
 
     # We chown/chmod /cache again so because mount is run as root + defaults
     chown system cache /cache
