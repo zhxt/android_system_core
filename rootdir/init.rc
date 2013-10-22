@@ -29,7 +29,7 @@ on init
 
 sysclktz 0
 
-loglevel 3
+loglevel 64
 
 # setup the global environment
     export PATH /sbin:/vendor/bin:/system/sbin:/system/bin:/system/xbin
