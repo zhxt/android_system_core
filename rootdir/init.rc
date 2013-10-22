@@ -14,8 +14,6 @@ on early-init
     # This should occur before anything else (e.g. ueventd) is started.
     setcon u:r:init:s0
 
-    start ueventd
-
 # create mountpoints
     mkdir /mnt 0775 root system
     mkdir /storage 0050 root sdcard_r
