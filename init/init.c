@@ -1069,6 +1069,9 @@ int main(int argc, char **argv)
 
     is_charger = !strcmp(bootmode, "charger");
 
+	/* FIXME: Mer will assume we're not on charger for now */
+	is_charger = 0;
+
     INFO("property init\n");
     property_load_boot_defaults();
 
