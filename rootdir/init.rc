@@ -4,7 +4,8 @@
 # This is a common source of Android security bugs.
 #
 
-import /init.usb.rc
+# Mer handles usb stuff
+#import /init.usb.rc
 import /init.${ro.hardware}.rc
 import /init.trace.rc
 import /init.carrier.rc
