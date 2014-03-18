@@ -439,12 +439,12 @@ service servicemanager /system/bin/servicemanager
 #    socket vold stream 0660 root mount
 #    ioprio be 2
 
-#Not used in Mer
-#service netd /system/bin/netd
-#    class main
-#    socket netd stream 0660 root system
-#    socket dnsproxyd stream 0660 root inet
-#    socket mdns stream 0660 root system
+# needed by `ndc softap fwreload wlan0 AP` command to reload mako firmware
+service netd /system/bin/netd
+    class main
+    socket netd stream 0660 root system
+    socket dnsproxyd stream 0660 root inet
+    socket mdns stream 0660 root system
 
 service debuggerd /system/bin/debuggerd
     class main
