@@ -33,7 +33,6 @@ sysclktz 0
 loglevel 3
 
 # Backward compatibility
-    symlink /system/etc /etc
     symlink /sys/kernel/debug /d
 
 # Right now vendor lives on the same filesystem as system,
@@ -149,11 +148,6 @@ loglevel 3
     chmod 0440 /sys/fs/pstore/console-ramoops
 
 on post-fs
-    # once everything is setup, no need to modify /
-    mount rootfs rootfs / ro remount
-    # mount shared so changes propagate into child namespaces
-    mount rootfs rootfs / shared rec
-
     # We chown/chmod /cache again so because mount is run as root + defaults
     chown system cache /cache
     chmod 0771 /cache
