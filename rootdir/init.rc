@@ -23,9 +23,9 @@ on early-init
 
 on init
 
-sysclktz 0
+    sysclktz 0
 
-loglevel 3
+    loglevel 64
 
 # Backward compatibility
     symlink /sys/kernel/debug /d
@@ -52,7 +52,8 @@ loglevel 3
     chown root system /sys/fs/cgroup/memory/sw/tasks
     chmod 0660 /sys/fs/cgroup/memory/sw/tasks
 
-    mkdir /system
+    # /system is owned by Mer
+    #mkdir /system
     mkdir /data 0771 system system
     mkdir /cache 0771 system cache
     mkdir /config 0500 root root
@@ -436,23 +437,23 @@ service servicemanager /system/bin/servicemanager
     class core
     user system
     group system
-    critical
-    onrestart restart healthd
-    onrestart restart zygote
-    onrestart restart media
-    onrestart restart surfaceflinger
-    onrestart restart drm
-
-service vold /system/bin/vold
-    class core
-    socket vold stream 0660 root mount
-    ioprio be 2
-
-service netd /system/bin/netd
-    class main
-    socket netd stream 0660 root system
-    socket dnsproxyd stream 0660 root inet
-    socket mdns stream 0660 root system
+#    critical
+#    onrestart restart healthd
+#    onrestart restart zygote
+#    onrestart restart media
+#    onrestart restart surfaceflinger
+#    onrestart restart drm
+#
+#service vold /system/bin/vold
+#    class core
+#    socket vold stream 0660 root mount
+#    ioprio be 2
+#
+#service netd /system/bin/netd
+#    class main
+#    socket netd stream 0660 root system
+#    socket dnsproxyd stream 0660 root inet
+#    socket mdns stream 0660 root system
 
 service debuggerd /system/bin/debuggerd
     class main
@@ -464,30 +465,36 @@ service ril-daemon /system/bin/rild
     user root
     group radio cache inet misc audio sdcard_rw qcom_oncrpc qcom_diag log
 
+# Disabled in Mer - used only during porting atm
 service surfaceflinger /system/bin/surfaceflinger
     class main
     user system
     group graphics drmrpc
     onrestart restart zygote
+    disabled
 
+# Disabled in Mer
 service zygote /system/bin/app_process -Xzygote /system/bin --zygote --start-system-server
     class main
     socket zygote stream 660 root system
     onrestart write /sys/android_power/request_state wake
     onrestart write /sys/power/state on
-    onrestart restart media
-    onrestart restart netd
+#    onrestart restart media
+#    onrestart restart netd
+    disabled
 
 service drm /system/bin/drmserver
     class main
     user drm
     group drm system inet drmrpc
 
+# Disabled in Mer
 service media /system/bin/mediaserver
     class main
     user media
     group audio camera inet net_bt net_bt_admin net_bw_acct drmrpc qcom_diag mediadrm
     ioprio rt 4
+    disabled
 
 service bootanim /system/bin/bootanimation
     class main
@@ -516,10 +523,12 @@ service mtpd /system/bin/mtpd
     disabled
     oneshot
 
+# Disabled in Mer
 service keystore /system/bin/keystore /data/misc/keystore
     class main
     user keystore
     group keystore drmrpc system
+    disabled
 
 service dumpstate /system/bin/dumpstate -s
     class main
@@ -527,6 +536,7 @@ service dumpstate /system/bin/dumpstate -s
     disabled
     oneshot
 
-service sshd /system/bin/start-ssh
-    class main
-    disabled
+# Use Mer sshd
+#service sshd /system/bin/start-ssh
+#    class main
+#    disabled
