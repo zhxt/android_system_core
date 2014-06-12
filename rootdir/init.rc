@@ -368,7 +368,12 @@ on boot
     class_start core
     class_start main
 
+# Never gets called, since Mer does its own 'mount_all'
 on nonencrypted
+    class_start late_start
+
+# Mer needs to set this property when fs units are mounted
+on property:droid.late_start=trigger_late_start
     class_start late_start
 
 on charger
