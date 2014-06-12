@@ -1238,6 +1238,8 @@ int main(int argc, char **argv)
         /* run all property triggers based on current state of the properties */
     queue_builtin_action(queue_property_triggers_action, "queue_property_triggers");
 
+    /* Run actions when all boot up is done and init is ready */
+    action_for_each_trigger("ready", action_add_queue_tail);
 
 #if BOOTCHART
     queue_builtin_action(bootchart_init_action, "bootchart_init");
