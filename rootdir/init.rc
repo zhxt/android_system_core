@@ -249,11 +249,6 @@ on post-fs-data
     import /init.cm.rc
 
 on boot
-# basic network init
-    ifup lo
-    hostname localhost
-    domainname localdomain
-
 # set RLIMIT_NICE to allow priorities from 19 to -20
     setrlimit 13 40 40
 
@@ -536,11 +531,3 @@ service dumpstate /system/bin/dumpstate -s
 service sshd /system/bin/start-ssh
     class main
     disabled
-
-service mdnsd /system/bin/mdnsd
-    class main
-    user mdnsr
-    group inet net_raw
-    socket mdnsd stream 0660 mdnsr inet
-    disabled
-    oneshot
