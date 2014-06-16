@@ -1132,16 +1132,7 @@ int main(int argc, char **argv)
      * on the system.  This init file is for 2nd-init anyway.
      */
 #ifndef NO_DEVFS_SETUP
-    mkdir("/dev", 0755);
-    mkdir("/proc", 0755);
-    mkdir("/sys", 0755);
-
-    mount("tmpfs", "/dev", "tmpfs", MS_NOSUID, "mode=0755");
-    mkdir("/dev/pts", 0755);
     mkdir("/dev/socket", 0755);
-    mount("devpts", "/dev/pts", "devpts", 0, NULL);
-    mount("proc", "/proc", "proc", 0, NULL);
-    mount("sysfs", "/sys", "sysfs", 0, NULL);
 
         /* indicate that booting is in progress to background fw loaders, etc */
     close(open("/dev/.booting", O_WRONLY | O_CREAT, 0000));
@@ -1179,6 +1170,9 @@ int main(int argc, char **argv)
     restorecon_recursive("/sys");
 
     is_charger = !strcmp(bootmode, "charger");
+
+    /* FIXME: Mer will assume we're not on charger for now */
+    is_charger = 0;
 
     INFO("property init\n");
     if (!is_charger)
@@ -1249,6 +1243,8 @@ int main(int argc, char **argv)
         /* run all property triggers based on current state of the properties */
     queue_builtin_action(queue_property_triggers_action, "queue_property_triggers");
 
+    /* Run actions when all boot up is done and init is ready */
+    action_for_each_trigger("ready", action_add_queue_tail);
 
 #if BOOTCHART
     queue_builtin_action(bootchart_init_action, "bootchart_init");
