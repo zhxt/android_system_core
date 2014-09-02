@@ -424,8 +424,10 @@ service console /system/bin/sh
     group log
     seclabel u:r:shell:s0
 
+# Disabled in Mer - together with CONFIG_AUDIT=n in mer-kernel-check
 service auditd /system/bin/auditd -k
     class main
+    disabled
 
 on property:ro.debuggable=1
     start console
