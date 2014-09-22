@@ -424,8 +424,8 @@ service adbd /sbin/adbd
 on property:ro.kernel.qemu=1
     start adbd
 
-# Mer will use a linux build of servicemanager eventually
-service servicemanager /system/bin/servicemanager
+# Custom servicemanager allows user nemo to register services
+service servicemanager /usr/libexec/droid-hybris/system/bin/servicemanager
     class core
     user system
     group system
