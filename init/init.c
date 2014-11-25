@@ -1105,7 +1105,7 @@ int main(int argc, char **argv)
         is_charger = !strcmp(bootmode, "charger") || charging_mode_booting();
 
 	/* FIXME: Mer will assume we're not on charger for now */
-	is_charger = 0;
+    //	is_charger = 0;
 
     INFO("property init\n");
     property_load_boot_defaults();
@@ -1149,7 +1149,7 @@ int main(int argc, char **argv)
     queue_builtin_action(queue_property_triggers_action, "queue_property_triggers");
 
     /* run all device triggers based on current state of device nodes in /dev */
-    queue_builtin_action(queue_device_triggers_action, "queue_device_triggers");
+    //    queue_builtin_action(queue_device_triggers_action, "queue_device_triggers");
 
 	/* Run actions when all boot up is done and init is ready */
 	action_for_each_trigger("ready", action_add_queue_tail);
