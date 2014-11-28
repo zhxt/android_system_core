@@ -1063,10 +1063,9 @@ int main(int argc, char **argv)
 
     mount("tmpfs", "/dev", "tmpfs", MS_NOSUID, "mode=0755");
     mkdir("/dev/pts", 0755);
-    mkdir("/dev/socket", 0755);
     */
-
-        /* indicate that booting is in progress to background fw loaders, etc */
+    mkdir("/dev/socket", 0755);
+    /* indicate that booting is in progress to background fw loaders, etc */
     close(open("/dev/.booting", O_WRONLY | O_CREAT, 0000));
 
         /* We must have some place other than / to create the
