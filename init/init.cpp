@@ -1049,6 +1049,7 @@ int main(int argc, char** argv) {
 //        mount("sysfs", "/sys", "sysfs", 0, NULL);
 //    }
 
+    mkdir("/dev/socket", 0755);
     /* indicate that booting is in progress to background fw loaders, etc */
     close(open("/dev/.booting", O_WRONLY | O_CREAT, 0000));
 
