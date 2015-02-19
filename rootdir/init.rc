@@ -462,13 +462,27 @@ service servicemanager /usr/libexec/droid-hybris/system/bin/servicemanager
     class core
     user system
     group system
-#    critical
+    critical
+    onrestart restart minimedia
+    onrestart restart minisf
 #    onrestart restart healthd
 #    onrestart restart zygote
 #    onrestart restart media
 #    onrestart restart surfaceflinger
 #    onrestart restart drm
 #
+
+service minimedia /usr/libexec/droid-hybris/system/bin/minimediaservice
+    class main
+    user media
+    group audio camera
+    ioprio rt 4
+
+service minisf /usr/libexec/droid-hybris/system/bin/minisfservice
+   class main
+   user system
+   group graphics
+
 #service vold /system/bin/vold
 #    class core
 #    socket vold stream 0660 root mount
