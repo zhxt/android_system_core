@@ -471,6 +471,8 @@ service healthd /sbin/healthd
     class core
     critical
     seclabel u:r:healthd:s0
+# Not used by Mer - spams logs and small battery drain
+    disabled
 
 service console /system/bin/sh
     class core
