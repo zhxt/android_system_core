@@ -481,9 +481,11 @@ service console /system/bin/sh
     group shell log
     seclabel u:r:shell:s0
 
+# Disabled in Mer - together with CONFIG_AUDIT=n in mer-kernel-check
 service auditd /system/bin/auditd -k
     seclabel u:r:logd:s0
     class main
+    disabled
 
 on property:ro.debuggable=1
     start console
@@ -510,10 +512,23 @@ service servicemanager /system/bin/servicemanager
     group system
     critical
     onrestart restart healthd
+    onrestart restart minimedia
+    onrestart restart minisf
 #    onrestart restart zygote
 #    onrestart restart media
 #    onrestart restart surfaceflinger
 #    onrestart restart drm
+
+service minimedia /usr/libexec/droid-hybris/system/bin/minimediaservice
+    class main
+    user media
+    group audio camera
+    ioprio rt 4
+
+service minisf /usr/libexec/droid-hybris/system/bin/minisfservice
+    class main
+    user system
+    group graphics
 
 service vold /system/bin/vold
     class core
