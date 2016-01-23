@@ -465,6 +465,7 @@ service servicemanager /usr/libexec/droid-hybris/system/bin/servicemanager
     critical
     onrestart restart minimedia
     onrestart restart minisf
+    onrestart restart miniaf
 #    onrestart restart healthd
 #    onrestart restart zygote
 #    onrestart restart media
@@ -482,6 +483,11 @@ service minisf /usr/libexec/droid-hybris/system/bin/minisfservice
    class main
    user system
    group graphics
+
+service miniaf /usr/libexec/droid-hybris/system/bin/miniafservice
+    class main
+    user system
+    group audio
 
 #service vold /system/bin/vold
 #    class core
