@@ -89,23 +89,6 @@ int __android_log_dev_available(void)
     return (g_log_status == kLogAvailable);
 }
 
-#ifdef HTCLOG
-signed int __htclog_read_masks(char *buf __unused, signed int len __unused)
-{
-    return 0;
-}
-
-int __htclog_init_mask(const char *a1 __unused, unsigned int a2 __unused, int a3 __unused)
-{
-    return 0;
-}
-
-int __htclog_print_private(int a1 __unused, const char *a2 __unused, const char *fmt __unused, ...)
-{
-    return 0;
-}
-#endif
-
 #ifdef MOTOROLA_LOG
 /* Fallback when there is neither log.tag.<tag> nor log.tag.DEFAULT.
  * this is compile-time defaulted to "info". The log startup code
@@ -420,6 +403,50 @@ static int __write_to_log_init(log_id_t log_id, struct iovec *vec, size_t nr)
 
     return write_to_log(log_id, vec, nr);
 }
+
+#ifdef AMAZON_LOG
+int lab126_log_write(int bufID, int prio, const char *tag, const char *fmt, ...)
+{
+	va_list ap;
+	char buf[LOG_BUF_SIZE];
+	int _a = bufID;
+	int _b = prio;
+
+	// skip flooding logs
+	if (!tag)
+	{
+		tag = "";
+	}
+	if( strncmp(tag, "Sensors", 7) == 0
+		||  strncmp(tag, "qcom_se", 7) == 0 )
+	{
+		return 0;
+	}
+	// skip flooding logs
+
+	va_start(ap, fmt);
+	vsnprintf(buf, LOG_BUF_SIZE, fmt, ap);
+	va_end(ap);
+
+	char new_tag[128];
+	snprintf(new_tag, sizeof(new_tag), "AMZ-%s", tag);
+
+	return __android_log_buf_write(LOG_ID_MAIN, ANDROID_LOG_DEBUG, new_tag, buf);
+}
+
+int __vitals_log_print(int bufID, int prio, const char *tag, const char *fmt, ...)
+{
+	va_list ap;
+	char buf[LOG_BUF_SIZE];
+	int _a = bufID;
+	int _b = prio;
+
+	va_start(ap, fmt);
+	va_end(ap);
+
+	return __android_log_write(ANDROID_LOG_DEBUG, tag, "__vitals_log_print not implemented");
+}
+#endif
 
 int __android_log_write(int prio, const char *tag, const char *msg)
 {
