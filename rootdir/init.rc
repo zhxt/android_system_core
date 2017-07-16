@@ -655,12 +655,13 @@ service minimedia /usr/libexec/droid-hybris/system/bin/minimediaservice
     user media
     group audio camera
     ioprio rt 4
-    setenv LD_PRELOAD /usr/libexec/droid-hybris/system/lib/libcameraservice.so
+    setenv LD_LIBRARY_PATH /vendor/lib:/system/lib
 
 service minisf /usr/libexec/droid-hybris/system/bin/minisfservice
     class main
     user system
     group graphics
+    setenv LD_LIBRARY_PATH /vendor/lib:/system/lib
 
 service miniaf /usr/libexec/droid-hybris/system/bin/miniafservice
     class main
@@ -691,6 +692,7 @@ service netd /system/bin/netd
 service debuggerd /system/bin/debuggerd
     class main
     writepid /dev/cpuset/system-background/tasks
+    setenv LD_LIBRARY_PATH /vendor/lib:/system/lib
 
 service debuggerd64 /system/bin/debuggerd64
     class main
@@ -716,6 +718,7 @@ service drm /system/bin/drmserver
     class main
     user drm
     group drm system inet drmrpc
+    setenv LD_LIBRARY_PATH /vendor/lib:/system/lib
 
 # Disabled in Mer
 service media /system/bin/mediaserver
